@@ -27,7 +27,7 @@ public class StudentManagement {
 			}while(menu<1 || menu>5);
 			switch(menu){
 			case 1: 
-				//add();
+				add();
 				break;
 			case 2:
 				//update();
@@ -39,11 +39,38 @@ public class StudentManagement {
 				//view();
 				break;
 			case 5:
-				//save();
+				save();
 				System.out.println("종료");
 				break;
 			}
 		}while(menu!=5);
+	}
+	public static void add() throws IOException{
+		Scanner sc1 = new Scanner(System.in);
+		System.out.println("<학생 추가>");
+		student[studentCount] = new Student();
+		System.out.print("학번:");
+		student[studentCount].id = sc1.nextInt();
+		System.out.print("이름:");
+		student[studentCount].name = sc1.next();
+		System.out.print("소속:");
+		student[studentCount].department = sc1.next();
+		System.out.print("전화번호:");
+		student[studentCount].phoneNum = sc1.nextInt(); 
+		studentCount++;
+ 
+		save();
+		System.out.println("파일에 저장되었습니다");
+	}
+ 
+	public static void save() throws IOException {
+ 
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data.txt"));
+		oos.writeInt(studentCount);
+		for(int j = 0; j < studentCount; j++) {
+			oos.writeObject(student[j]);
+		}
+		oos.close();
 	}
 	
 }
