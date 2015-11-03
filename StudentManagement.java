@@ -45,4 +45,47 @@ public class StudentManagement {
 			}
 		}while(menu!=5);
 	}
+	public static void add() throws IOException{
+		Scanner sc1 = new Scanner(System.in);
+		System.out.println("<학생 추가>");
+		student[studentCount] = new Student();
+		System.out.print("학번:");
+		student[studentCount].id = sc1.nextInt();
+		System.out.print("이름:");
+		student[studentCount].name = sc1.next();
+		System.out.print("소속:");
+		student[studentCount].department = sc1.next();
+		System.out.print("전화번호:");
+		student[studentCount].phoneNum = sc1.nextInt(); 
+		studentCount++;
+ 
+		save();
+		System.out.println("파일에 저장되었습니다");
+	}
+	public static void update() throws FileNotFoundException, IOException, ClassNotFoundException{
+		Scanner sc2 = new Scanner(System.in);
+		int updateId;
+		int newphoneNum;
+		System.out.println("<학생 정보 수정>");
+		System.out.println("학생 전화번호만 수정이 가능합니다.");
+		System.out.print("수정할 학생 학번 입력: ");
+		updateId = sc2.nextInt();
+ 
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.txt"));
+		studentCount = ois.readInt();
+		for(int i=0; i<=studentCount; i++){
+			try{
+				student[i] = (Student)ois.readObject();
+				if(updateId == student[i].id){
+					System.out.println("\n"+student[i].name+"("+student[i].id+")"+"의 전화번호를 수정합니다.");
+					System.out.print("새 전화번호 입력: ");
+					newphoneNum = sc2.nextInt();
+					student[i].phoneNum = newphoneNum;
+					save();
+					System.out.println("수정되었습니다");
+				}
+			}catch(EOFException e){};
+		}
+ 
+	}
 }
